@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Editar Cliente</h1>
+
+    <form method="POST">
+        <input type="text" name="nome" value="{{ cliente.nome }}" required>
+        <input type="text" name="cpf" value="{{ cliente.cpf }}" required>
+        <input type="email" name="email" value="{{ cliente.email }}" required>
+        <input type="text" name="endereco" value="{{ cliente.enderecos[0] if cliente.enderecos else '' }}">
+        <input type="text" name="telefone" value="{{ cliente.telefones[0] if cliente.telefones else '' }}">
+        <button type="submit">Salvar Alterações</button>
+    </form>
+
+    <a class="voltar" href="/clientes">⬅ Voltar</a>
+</div>
+</body>
+</html>

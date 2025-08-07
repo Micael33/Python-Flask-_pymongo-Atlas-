@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Fornecedor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Editar Fornecedor</h1>
+
+    <form method="POST">
+        <input type="text" name="nome" value="{{ fornecedor.nome }}" required>
+        <input type="text" name="produtos" value="{{ ', '.join(fornecedor.produtos_fornecidos) }}">
+        <input type="email" name="email" value="{{ fornecedor.contato.email }}">
+        <input type="text" name="telefone" value="{{ fornecedor.contato.telefone }}">
+        <input type="text" name="categorias" value="{{ ', '.join(fornecedor.categorias) }}">
+        <button type="submit">Salvar Alterações</button>
+    </form>
+
+    <a class="voltar" href="/fornecedores">⬅ Voltar</a>
+</div>
+</body>
+</html>

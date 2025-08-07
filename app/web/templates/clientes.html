@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Sistema de registro de clientes</h1>
+
+        <!-- Flash message -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash">
+              {% for msg in messages %}
+                <p>{{ msg }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Cadastro -->
+        <section class="form-section">
+            <h2>Cadastrar Cliente</h2>
+            <form method="POST" action="/clientes">
+                <input type="text" name="nome" placeholder="Nome completo" required>
+                <input type="text" name="cpf" placeholder="CPF" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="endereco" placeholder="Endereço (apenas um)">
+                <input type="text" name="telefone" placeholder="Telefone (apenas um)">
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- Lista de clientes -->
+        <h2>Lista de Clientes</h2>
+        <div class="product-grid">
+            {% for c in clientes %}
+            <div class="product-card">
+              <h3>{{ c.nome }}</h3>
+              <p><strong>CPF:</strong> {{ c.cpf }}</p>
+              <p><strong>Email:</strong> {{ c.email }}</p>
+              <p><strong>Endereço(s):</strong> {{ ', '.join(c.enderecos) if c.enderecos else 'N/A' }}</p>
+              <p><strong>Telefone(s):</strong> {{ ', '.join(c.telefones) if c.telefones else 'N/A' }}</p>
+
+              <div class="acoes">
+                  <a class="btn-edit" href="/clientes/editar/{{ c._id }}">✏️ Editar</a>
+                  <a class="btn-delete" href="/clientes/delete/{{ c._id }}" onclick="return confirm('Deseja excluir este cliente?');">🗑️ Excluir</a>
+              </div>
+            </div>
+            {% else %}
+              <p>Nenhum cliente encontrado.</p>
+            {% endfor %}
+        </div>
+
+        <a class="voltar" href="/">⬅ Voltar</a>
+    </div>
+</body>
+</html>

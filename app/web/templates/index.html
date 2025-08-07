@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Loja MD Variedades</title>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Loja MD Variedades </h1>
+        <p>Bem-vindo ao sistema de gerenciamento da loja! Aqui você pode gerenciar seus produtos, clientes e fornecedores.</p>
+        
+
+        <div class="product-grid">
+            <a href="/produtos" class="product-card">
+                <img src="https://yata.s3-object.locaweb.com.br/b1da36362690140b82f2615336181d34f58abf5a5fadf78cb182f5aafb43242e" alt="Produtos">
+                <h3>Produtos</h3>
+                <p>Gerencie seus produtos</p>
+            </a>
+            <a href="/clientes" class="product-card">
+                <img src="https://cdn-icons-png.freepik.com/512/4814/4814852.png" alt="Clientes">
+                <h3>Clientes</h3>
+                <p>Veja e cadastre seus clientes</p>
+            </a>
+            <a href="/fornecedores" class="product-card">
+                <img src="https://png.pngtree.com/png-clipart/20250124/original/pngtree-colorful-delivery-truck-icon-png-image_20329840.png" alt="Fornecedores">
+                <h3>Fornecedores</h3>
+                <p>Visualize e cadastre fornecedores</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

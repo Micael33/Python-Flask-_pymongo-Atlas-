@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Fornecedores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Sistema de registro de fornecedores</h1>
+
+        <!-- Flash message -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash">
+              {% for msg in messages %}
+                <p>{{ msg }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Cadastro -->
+        <section class="form-section">
+            <h2>Cadastrar Fornecedor</h2>
+            <form method="POST" action="/fornecedores">
+                <input type="text" name="nome" placeholder="Nome da empresa" required>
+                <input type="text" name="produtos" placeholder="Produtos fornecidos (separados por vírgula)" required>
+                <input type="email" name="email" placeholder="Email de contato" required>
+                <input type="text" name="telefone" placeholder="Telefone de contato" required>
+                <input type="text" name="categorias" placeholder="Categorias (separadas por vírgula)">
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- Lista de fornecedores -->
+        <h2>Lista de Fornecedores</h2>
+        <div class="product-grid">
+            {% for f in fornecedores %}
+            <div class="product-card">
+                <h3>{{ f.nome }}</h3>
+                <p><strong>Produtos:</strong> {{ ', '.join(f.produtos_fornecidos) if f.produtos_fornecidos else 'N/A' }}</p>
+                <p><strong>Email:</strong> {{ f.contato.email }}</p>
+                <p><strong>Telefone:</strong> {{ f.contato.telefone }}</p>
+                <p><strong>Categorias:</strong> {{ ', '.join(f.categorias) if f.categorias else 'N/A' }}</p>
+
+                <div class="acoes">
+                    <a class="btn-edit" href="/fornecedores/editar/{{ f._id }}">✏️ Editar</a>
+                    <a class="btn-delete" href="/fornecedores/delete/{{ f._id }}" onclick="return confirm('Deseja excluir este fornecedor?');">🗑️ Excluir</a>
+                </div>
+            </div>
+            {% else %}
+              <p>Nenhum fornecedor encontrado.</p>
+            {% endfor %}
+        </div>
+
+        <a class="voltar" href="/">⬅ Voltar</a>
+    </div>
+</body>
+</html>

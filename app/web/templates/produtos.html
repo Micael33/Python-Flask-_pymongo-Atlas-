@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+
+        <h1><i class="fas fa-box"></i> Sistema de gerenciamento de produtos</h1>
+
+        <!-- Mensagens Flash -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash">
+              {% for msg in messages %}
+                <p>{{ msg }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <!-- 🔍 Barra de busca -->
+        <form class="search-bar" method="GET" action="/produtos">
+            <input type="text" name="q" placeholder="Buscar produtos..." value="{{ request.args.get('q', '') }}">
+            <button type="submit"><i class="fas fa-search"></i> Buscar</button>
+        </form>
+
+        <!-- 📝 Formulário de cadastro -->
+        <section class="form-section">
+            <h2><i class="fas fa-plus-circle"></i> Cadastrar Produto</h2>
+            <form method="POST" action="/produtos">
+                <input type="text" name="nome" placeholder="Nome do produto" required>
+                <input type="number" step="0.01" name="preco" placeholder="Preço (R$)" required>
+                <input type="number" name="estoque" placeholder="Quantidade em estoque" required>
+                <input type="text" name="tags" placeholder="Tags (separadas por vírgula)">
+                
+                <!-- ✅ Select de fornecedores -->
+                <select name="fornecedor_id" required>
+                    <option value="">-- Selecione o Fornecedor --</option>
+                    {% for f in fornecedores %}
+                        <option value="{{ f._id }}">{{ f.nome }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- 📦 Lista de produtos -->
+        <h2><i class="fas fa-boxes"></i> Produtos Disponíveis</h2>
+        <div class="product-grid">
+            {% for p in produtos %}
+            <div class="product-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmJ3upqe2iYrqE66hmpRkpRS5LCGRclwfVwg&s" alt="{{ p.nome }}">
+                
+                <h3>{{ p.nome }}</h3>
+                <p><strong>Preço:</strong> R$ {{ "%.2f"|format(p.preco) }}</p>
+                <p><strong>Estoque:</strong> {{ p.estoque }} unidades</p>
+                <p><strong>Tags:</strong> {{ ', '.join(p.tags) if p.tags else 'Nenhuma' }}</p>
+                
+                <p><strong>Fornecedor:</strong>
+                    {% for f in fornecedores %}
+                        {% if f._id == p.fornecedor_id %}
+                            {{ f.nome }}
+                        {% endif %}
+                    {% endfor %}
+                </p>
+
+                <div class="acoes">
+                    <a class="btn-edit" href="/produtos/editar/{{ p._id }}">✏️ Editar</a>
+                    <a class="btn-delete" href="/produtos/delete/{{ p._id }}" onclick="return confirm('Deseja excluir este produto?');">🗑️ Excluir</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a class="voltar" href="/">⬅ Voltar</a>
+    </div>
+</body>
+</html>

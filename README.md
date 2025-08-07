@@ -10,6 +10,16 @@ Este projeto implementa um sistema de gerenciamento de clientes, produtos e forn
 - Integração com Atlas
 - Web frontend com templates
 
+## 📌 Funcionalidades
+
+- Cadastro, listagem, atualização e remoção de:
+  - Clientes
+  - Fornecedores
+  - Produtos (com chave estrangeira para fornecedores)
+- Sistema de busca por nome
+- Interface estilizada com HTML + CSS (efeito vidro)
+- Organização por rotas e Blueprints do Flask
+
 ## Como rodar
 1. Crie seu ambiente virtual
 2. Instale as dependências:

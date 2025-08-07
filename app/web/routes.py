@@ -55,24 +55,24 @@ def fornecedores():
 @web.route("/produtos/editar/<id>", methods=["GET", "POST"])
 def editar_produto(id):
     from app.db import produtos, fornecedores
-    produto = produtos.find_one({"_id": ObjectId(id)})
 
     if request.method == "POST":
-        produtos.update_one({"_id": ObjectId(id)}, {
-            "$set": {
+        produtos.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {
                 "nome": request.form["nome"],
                 "preco": float(request.form["preco"]),
                 "estoque": int(request.form["estoque"]),
                 "tags": [tag.strip() for tag in request.form["tags"].split(",")],
                 "fornecedor_id": ObjectId(request.form["fornecedor_id"])
-            }
-        })
+            }}
+        )
         flash("✅ Produto atualizado com sucesso!")
         return redirect("/produtos")
 
+    produto = produtos.find_one({"_id": ObjectId(id)})
     fornecedores_lista = list(fornecedores.find())
     return render_template("editar_produto.html", produto=produto, fornecedores=fornecedores_lista)
-
 
 @web.route("/produtos/delete/<id>")
 def deletar_produto(id):
